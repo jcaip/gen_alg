@@ -24,20 +24,26 @@ operators = ['+','-', '/', '*'];
 operands = ['1','2', '3', '4', '5','6','7','8','9', '0'];
 
 population = {};
-target = 55;
+target = int(input("Enter your desired #"));
     
 history = [];
 iterations = [];
-def plot():
+
+def plot(info):
+    fig = plt.figure()
+    stuff = "".join(info)
     plt.plot(iterations,history, 'b-');
-    plt.show();
+    plt.ylabel("Fitness score")
+    plt.xlabel("# of iterations")
+    fig.suptitle("Expression found: " + stuff)
+
+    fig.savefig("example.png")
 
 def startExp():
     createStartingPool(500, 9);
     for i in range(0, 100000):
         history.append(iterateGeneration(i));
         iterations.append(i)
-    plot();
 
 def iterateGeneration(i):
     #weight parameters
@@ -46,7 +52,7 @@ def iterateGeneration(i):
     total = sum(population.values());
     if total ==0:
         print("SIMULATION FAILED: ENTIRE POPULATION DEAD");
-        plot();
+        plot("SIMULATION FAILED: ENTIRE POPULATION DEAD");
         input("Press Enter to continue...");
         quit();
 
@@ -152,7 +158,7 @@ def evaluateChromosome(bitstring):
 
     if numbers[0] == target:
         print("FOUND EXPRESSION:  "  + "".join(expression));
-        plot();
+        plot(expression);
         input("Press Enter to continue...");
         quit();
 
